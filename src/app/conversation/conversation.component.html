@@ -1,0 +1,15 @@
+<!-- PIPES -->
+<!-- Convertir objeto a json -->
+<p>
+    {{friend | json}}
+</p>
+
+<!-- Lo que va antes del punto afecta a los enteros. Despues del punto indica min 2, max 2 decimales -->
+<p>
+    {{price | number:'1.2-2'}}
+</p>
+
+<!-- https://angular.io/api/common/DatePipe -->
+<p>
+    {{today | date:'medium'}}
+</p>
