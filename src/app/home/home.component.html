@@ -1,20 +1,56 @@
-<h1>Contactos</h1>
-<input type="text" placeholder="Buscar amigo" [(ngModel)]="buscarAmigo" />
-<br />
-<h1>Amigos</h1>
-<!-- Variables estructurables. Solo cambian la estructura del HTML y empiezan con *-->
-<ul class="list-group" style="width:20%">
-    <ng-container *ngFor="let user of friends | search:buscarAmigo; let i = index">
-        <div *ngIf="user.friend">
-            <a routerLink="/conversation/{{user.uid}}" title="{{user.status}}">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-
-                    {{user.nick}}<br />{{user.email}}
-                    <span class="badge badge-pill"><img src="assets/img/logo_live_{{user.status}}.png"
-                            class="img-status" /></span>
-
-                </li>
-            </a>
+<div id="homeContainer">
+    <div class="whiteBorderGlassBox">
+        <div class="homeHeadcontainer">
+            <div class="row">
+                <div class="col-md-auto">
+                    <div class="avatarFrameOnline">
+                        <img src="/assets/img/generic_avatar.png" id="homeAvatarPicture">
+                    </div>
+                </div>
+                <div class="col">
+                    <b>Eduardo</b>>
+                    <div>
+                        <span>Online</span>
+                        <br />
+                        <span>
+                            < Escribe un mensaje personal>
+                        </span>
+                    </div>
+                </div>
+            </div>
         </div>
-    </ng-container>
-</ul>
+    </div>
+
+
+    <div class="whiteContainerPadded margtop15">
+        <div class="row">
+            <div class="col">
+                <input type="text" class="form-control" placeholder="Buscar amigo" [(ngModel)]="buscarAmigo" />
+            </div>
+            <div class="col-md-auto">
+                <img src="/assets/img/logo_live_add.png" class="icon">
+            </div>
+        </div>
+        <hr />
+        <b>Amigos ({{friends.length}} / {{friends.length}})</b>
+
+        <!-- Variables estructurables. Solo cambian la estructura del HTML y empiezan con *-->
+        <ul class="list-group" style="width:20%">
+            <ng-container *ngFor="let user of friends | search:buscarAmigo; let i = index">
+                <div *ngIf="user.friend">
+                    <a routerLink="/conversation/{{user.uid}}" title="{{user.status}}">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{user.nick}} - {{user.subnick || 'No subnick'}}
+                            <small>{{user.email}}</small>
+                            <span class="badge badge-pill"><img src="assets/img/logo_live_{{user.status}}.png"
+                                    class="img-status" /></span>
+                        </li>
+                    </a>
+                </div>
+            </ng-container>
+        </ul>
+    </div>
+
+
+
+</div>

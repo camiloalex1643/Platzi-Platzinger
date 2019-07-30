@@ -1,3 +1,25 @@
-#main-logo{
-    width:70px
+#main-logo {
+    width: 40px
+}
+
+#menuContainer {
+    background-color: aqua;
+    position: fixed;
+    width: 100%;
+    z-index:9;
+    height:56px;
+    top:0px;
+}
+
+.branding{
+    padding:5px !important;
+    border-right:none !important;
+}
+
+#menuContainer > .item{
+    padding:15px;
+    color:#fff;
+    cursor:default;
+    border:1px solid #fff;
+    display:inline-block;
 }
