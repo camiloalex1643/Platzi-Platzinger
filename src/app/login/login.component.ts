@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../services/authentication.service';
 import { UserService } from '../services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -13,16 +14,16 @@ export class LoginComponent implements OnInit {
   password: string = null
   nick: string = null
 
-  constructor(private authenticationService: AuthenticationService, private userService: UserService) { }
+  constructor(private authenticationService: AuthenticationService, private userService: UserService, private router:Router) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   login() {
     this.authenticationService.loginWithEmail(this.email, this.password).then(
       onfullfiled => {
         console.log("Entro")
         console.log(onfullfiled)
+        this.router.navigate(['home'])
       }).catch(
         onrejected => {
           console.log("Error")

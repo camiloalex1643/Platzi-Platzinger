@@ -1,5 +1,6 @@
 export interface User{
     nick: string,
+    
     //Campos opcionales
     subnick?: string,
     age?: number,

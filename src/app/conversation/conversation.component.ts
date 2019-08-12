@@ -10,7 +10,6 @@ import { UserService } from '../services/user.service';
 })
 export class ConversationComponent implements OnInit {
   friendId: any
-  friends: User[]
   friend: User
   price: number = 78.565465465456456
   today: any = Date.now()
@@ -18,14 +17,20 @@ export class ConversationComponent implements OnInit {
   //Inyectar ciertos elementos qeu deseamos utilizar en el componente
   //Con ActivatedRout podemos acceder a los elementos que estamos enviando o recibiendo
   constructor(private activatedRoute: ActivatedRoute, private userService: UserService) {
-    this.friendId = this.activatedRoute.snapshot.params['uid']
     console.log(this.friendId)
-    this.friends = this.userService.getFriends()
-    
-    this.friend = this.friends.find((record)  => {
-      return record.uid == this.friendId
-    })
+
+    this.friendId = this.activatedRoute.snapshot.params['uid']
     console.log(this.friend)
+    this.userService.getUserById(this.friendId).valueChanges().subscribe(
+      (next:User )=> {
+        this.friend = next
+      },
+      error => {
+        console.log("Error")
+      }
+    )
+
+
   }
   ngOnInit() {
   }

@@ -32,12 +32,12 @@
             </div>
         </div>
         <hr />
-        <b>Amigos ({{friends.length}} / {{friends.length}})</b>
+        <b *ngIf="friends">Amigos ({{friends.length}} / {{friends.length}}) </b>
 
         <!-- Variables estructurables. Solo cambian la estructura del HTML y empiezan con *-->
         <ul class="list-group" style="width:20%">
             <ng-container *ngFor="let user of friends | search:buscarAmigo; let i = index">
-                <div *ngIf="user.friend">
+                <!--<div *ngIf="user.friend">-->
                     <a routerLink="/conversation/{{user.uid}}" title="{{user.status}}">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             {{user.nick}} - {{user.subnick || 'No subnick'}}
@@ -46,7 +46,7 @@
                                     class="img-status" /></span>
                         </li>
                     </a>
-                </div>
+                <!--</div>-->
             </ng-container>
         </ul>
     </div>

@@ -20,7 +20,15 @@ export class HomeComponent implements OnInit {
     let l : any[] = [1, 'aoe', {}, []]
     console.log(c+b)*/
 
-    this.friends = userService.getFriends()
+    userService.getUsers().valueChanges().subscribe(
+      (next:User[] )=> {
+        this.friends = next;
+        console.log(this.friends);
+      },
+      error => {
+        console.log("Error en hom.component.ts"+error)
+      }
+    )
   }
 
   ngOnInit() {
