@@ -29,8 +29,6 @@ export class ConversationComponent implements OnInit {
         console.log("Error")
       }
     )
-
-
   }
   ngOnInit() {
   }

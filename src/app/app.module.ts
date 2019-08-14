@@ -4,6 +4,9 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+import { ImageCropperModule } from 'ngx-image-cropper';
+
+
 //Importar FireBase 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
@@ -20,16 +23,17 @@ import { Routes, RouterModule } from '@angular/router';
 import { MenuComponent } from './menu/menu.component';
 import { SearchPipe } from './pipes/search';
 import { FormsModule } from '@angular/forms';
+import { AuthenticacionGuard } from './services/authenticacion.guard';
 
 //Creo las rutas que mi app utilizará para luego importarlas
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'home', component: HomeComponent },
+  { path: 'home', component: HomeComponent, canActivate: [AuthenticacionGuard] },
   { path: 'login', component: LoginComponent },
 
   //Permitir el envio de aprametros via GET
-  { path: 'conversation/:uid', component: ConversationComponent },
-  { path: 'profile', component: ProfileComponent }
+  { path: 'conversation/:uid', component: ConversationComponent, canActivate: [AuthenticacionGuard]  },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthenticacionGuard]  }
 ]
 
 @NgModule({
@@ -45,6 +49,8 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule,
     AppRoutingModule,
+
+    ImageCropperModule, 
     
     //Importar firebase
     AngularFireModule.initializeApp(environment.firebase),
