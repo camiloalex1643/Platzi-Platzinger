@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from '../services/authentication.service';
-import { UserService } from '../services/user.service';
-import { Router } from '@angular/router';
+import {AuthenticationService} from '../services/authentication.service';
+import {UserService} from '../services/user.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -9,51 +9,43 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  operation: string = 'login'
-  email: string = null
-  password: string = null
-  nick: string = null
+  operation: string = 'login';
+  email: string = null;
+  password: string = null;
+  nick: string = null;
+  constructor(private authenticationService: AuthenticationService, private userService: UserService, private router: Router) { }
 
-  constructor(private authenticationService: AuthenticationService, private userService: UserService, private router:Router) { }
-
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   login() {
-    this.authenticationService.loginWithEmail(this.email, this.password).then(
-      onfullfiled => {
-        console.log("Entro")
-        console.log(onfullfiled)
-        this.router.navigate(['home'])
-      }).catch(
-        onrejected => {
-          console.log("Error")
-          console.log(onrejected)
-        })
+    this.authenticationService.loginWithEmail(this.email, this.password).then( (data) => {
+      alert('Loggeado correctamente');
+      console.log(data);
+      this.router.navigate(['home']);
+    }).catch((error) => {
+      alert('Ocurrioo un error');
+      console.log(error);
+    });
   }
 
   register() {
-    this.authenticationService.registerWithEmail(this.email, this.password).then(
-      onfullfiled => {
-        const user = {
-          uid: onfullfiled.user.uid,
-          email: this.email,
-          nick: this.nick
-        }
-        this.userService.createUser(user).then(
-          onfullfiled => {
-            console.log("Registrado")
-            console.log(onfullfiled)
-          }).catch(
-            onrejected => {
-              console.log("Registrado")
-              console.log(onrejected)
-            }
-          )
-      }).catch(
-        onrejected => {
-          console.log("Error")
-          console.log(onrejected)
-        })
+    this.authenticationService.registerWithEmail(this.email, this.password).then( (data) => {
+      const user = {
+        uid: data.user.uid,
+        email: this.email,
+        nick: this.nick
+      };
+      this.userService.createUser(user).then((data2) => {
+        alert('Registrado correctamente');
+        console.log(data2);
+      }).catch((error) => {
+        alert('Ocurrioo un error');
+        console.log(error);
+      });
+    }).catch((error) => {
+      alert('Ocurrioo un error');
+      console.log(error);
+    });
   }
-
 }

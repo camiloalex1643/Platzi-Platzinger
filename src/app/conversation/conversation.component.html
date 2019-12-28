@@ -1,102 +1,52 @@
-<!-- PIPES -->
-<!-- Convertir objeto a json -->
-<!-- 
-<p>
-    {{friend | json}}
-</p>
--->
-<!-- Lo que va antes del punto afecta a los enteros. Despues del punto indica min 2, max 2 decimales -->
-<!-- 
-<p>
-    {{price | number:'1.2-2'}}
-</p>
--->
-<!-- https://angular.io/api/common/DatePipe -->
-<!-- 
-<p>
-    {{today | date:'medium'}}
-</p>
--->
+<div class="conversationContainer bluewhitebg" [ngClass]="{'shaker': shake}">
+  <div class="row">
+    <div class="col-sm-3 maxwi300">
+      <div id="conversationSidebar">
+        <div class="vh30">
+          <div class="avatarFrameonline">
+            <img src="{{'assets/img/generic_avatar.png'}}" class="avatarImage img-fluid">
+          </div>
+        </div>
+        <div class="vh30"></div>
+        <div class="vh25">
+          <div class="avatarFrameonline">
+            <img src="{{'assets/img/generic_avatar.png'}}" class="avatarImage img-fluid">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-9">
+      <br />
+      <span class="friendName">Amigo 1</span> (online)
+      <hr />
+      <div class="vh55 overscroll pabo10" id="messageArea">
+        <div class="messageGroup" *ngFor="let m of conversation">
+          <b>{{getUserNickById(m.sender)}}</b> dice: <br />
+          <span>{{m.text}}</span>
+        </div>
+      </div>
+      <div class="messageControlsContainer">
+        <textarea [(ngModel)]="textMessage" (keyup.enter)="sendMessage()" class="form-control" cols="30" rows="5" ></textarea>
+        <div id="messageToolBar">
+          <div class="item">
+            <img src="assets/img/icons/regular_smile.gif" class="tool">
+            <i name="caret-down"></i>
+          </div>
+          <div class="item">
+            <img src="assets/img/icons/wink_smile.gif" class="tool">
+            <i name="caret-down"></i>
+          </div>
+          <div class="item" (click)="sendZumbido()">
+            <img src="assets/img/zumbido.png" class="tool">
+          </div>
 
-<div id="conversationContainer">
-    <div class="whiteBorderGlassBox">
-        <div class="homeHeadContainer">
-            <div class="row">
-                <div class="col-md-auto">
-                    <div class="avatarFrameonline">
-                        <img src="assets/img/generic_avatar.png" id="homeAvatarPicture">
-                    </div>
-                </div>
-                <div class="col">
-                    <h1>Eduardo</h1>
-                    <div>
-                        <span>Online</span>
-                        <br />
-                        <span>Escribe un mensaje Personal </span>
-                        <hr />
-                    </div>
-                    <form>
-                        <div class="form-group">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="col">
-                                        <i>
-                                            <img src="assets/img/generic_avatar.png" alt="" class="icon-chat">
-                                        </i>
-                                        <span class="badge badge-primary">Hola como estas?</span>
-                                    </div>
-                                    <div class="col text-right">
-                                        <i>
-                                            <span class="badge badge-primary">Yo bien y tu?</span>
-                                            <img src="assets/img/generic_avatar.png" alt="" class="icon-chat">
-                                        </i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+          <a class="btn btn-primary btn-sm marri10" accept="image/*">Enviar</a>
+          <label class="custom-file-upload">
+            <input type="file">
+            <i name="image"></i> Seleccionar Imagen
+          </label>
         </div>
+      </div>
     </div>
-    <div class="whiteBorderGlassBox">
-        <div class="homeHeadContainer">
-            <div class="row">
-                <div class="col-md-auto">
-                    <div class="avatarFrameonline">
-                        <img src="assets/img/generic_avatar.png" id="homeAvatarPicture">
-                    </div>
-                </div>
-                <div class="col">
-                    <b>Yo</b>
-                    <div>
-                        <form>
-                            <div class="form-group">
-                                <textarea class="form-control" id="Area-de-Chat" rows="3"
-                                    placeholder="Escribe menos de 140 caracteres"></textarea>
-                                <div class="col text-right">
-                                    <i class="img mr-1">
-                                        <img src="assets/img/icons/regular_smile.gif" alt="">
-                                    </i>
-                                    <i class="img mr-1">
-                                        <img src="assets/img/icons/tongue_smile.gif" alt="">
-                                    </i>
-                                    <i class="img mr-1">
-                                        <img src="assets/img/icons/angry_smile.gif" alt="">
-                                    </i>
-                                    <button type="button" class="btn btn-primary btn-sm mr-1">
-                                        Enviar
-                                    </button>
-                                    <label class="custom-file-upload mr-1">
-                                        <input type="file">
-                                        Selecciona Imagen
-                                    </label>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+  </div>
 </div>

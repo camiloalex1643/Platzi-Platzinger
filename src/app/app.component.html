@@ -1,6 +1,4 @@
 <app-menu *ngIf="router.url != '/login'"></app-menu>
-
-<!-- Condicional para exponer la clase cuando no sea login -->
-<div [ngClass]="{'generalContent': router.url !=  '/login'}">
-    <router-outlet></router-outlet>
+<div [ngClass]="{'generalContent': router.url != '/login'}">
+  <router-outlet></router-outlet>
 </div>

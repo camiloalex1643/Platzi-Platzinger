@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../interfaces/user';
-import { UserService } from '../services/user.service';
-import { AuthenticationService } from '../services/authentication.service';
-
-import { ImageCroppedEvent } from 'ngx-image-cropper';
-import { AngularFireStorage } from '@angular/fire/storage';
-
+import {User} from '../interfaces/user';
+import {UserService} from '../services/user.service';
+import {AuthenticationGuard} from '../services/authentication.guard';
+import {AuthenticationService} from '../services/authentication.service';
+import {FirebaseStorage} from 'angularfire2';
+import {AngularFireStorage} from 'angularfire2/storage';
 
 @Component({
   selector: 'app-profile',
@@ -14,87 +13,60 @@ import { AngularFireStorage } from '@angular/fire/storage';
 })
 export class ProfileComponent implements OnInit {
   user: User;
-  imageChangedEvent: any = ''
-  croppedImage: any = ''
-  picture: any = ''
-  constructor(private userService: UserService,
-    private authenticationservice: AuthenticationService,
-    private firebaseStorage: AngularFireStorage) {
-    this.authenticationservice.getStatus().subscribe(
-      next => {
-        this.userService.getUserById(next.uid).valueChanges().subscribe(
-          (next: User) => {
-            this.user = next
-            console.log(this.user)
-          }, error => {
-            console.log(error)
-          }
-        )
-      },
-      error => {
-        console.log(error)
-      }
-    )
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
+  picture: any;
+  constructor(private userService: UserService, private authenticationService: AuthenticationService, private firebaseStorage: AngularFireStorage) {
+    this.authenticationService.getStatus().subscribe((status) => {
+      this.userService.getUserById(status.uid).valueChanges().subscribe((data: User) => {
+        this.user = data;
+        console.log(this.user);
+      }, (error) => {
+        console.log(error);
+      });
+    }, (error) => {
+      console.log(error);
+    });
   }
 
+  ngOnInit() {
+  }
+  saveSettings() {
+    if (this.croppedImage) {
+      const currentPictureId = Date.now();
+      const pictures = this.firebaseStorage.ref('pictures/' + currentPictureId + '.jpg').putString(this.croppedImage, 'data_url');
+      pictures.then((result) => {
+        this.picture = this.firebaseStorage.ref('pictures/' + currentPictureId + '.jpg').getDownloadURL();
+        this.picture.subscribe((p) => {
+          this.userService.setAvatar(p, this.user.uid).then(() => {
+            alert('Avatar subido correctamentne');
+          }).catch((error) => {
+            alert('Hubo un error al tratar de subir la imagen');
+            console.log(error);
+          });
+        });
+      }).catch((error) => {
+        console.log(error);
+      });
+    } else {
+      this.userService.editUser(this.user).then(() => {
+        alert('Cambios guardados!');
+      }).catch((error) => {
+        alert('Hubo un error');
+        console.log(error);
+      });
+    }
+  }
   fileChangeEvent(event: any): void {
     this.imageChangedEvent = event;
   }
-  imageCropped(event: ImageCroppedEvent) {
-    this.croppedImage = event.base64;
+  imageCropped(image: string) {
+    this.croppedImage = image;
   }
   imageLoaded() {
     // show cropper
   }
-  cropperReady() {
-    // cropper ready
-  }
   loadImageFailed() {
     // show message
   }
-
-  saveSettings() {
-    if (this.croppedImage) {
-      const currentPictureId = Date.now()
-
-      //El ref regresa una promesa
-      const pictures = this.firebaseStorage.ref('pictures/' + currentPictureId + '.jpg').putString(this.croppedImage, 'data_url');
-
-      pictures.then(
-        onfulfilled => {
-          this.picture = this.firebaseStorage.ref('pictures/' + currentPictureId + '.jpg').getDownloadURL()
-          this.picture.subscribe(
-            p => {
-              this.userService.setAvatar(p, this.user.uid).then(
-                onfulfilled => {
-                  alert('Subio imagen')
-                }
-              ).catch(
-                onrejected => {
-                  alert('Error Subio imagen')
-                  console.log(onrejected)
-                }
-              )
-            }
-          )
-        }
-      ).catch(
-        onrejected => {
-          console.log("Error de imagen " + onrejected)
-        }
-      )
-    } else {
-      this.userService.editUser(this.user).then(
-        onfulfilled => {
-          alert('Guardo')
-        }
-      ).catch(onrejected => {
-        alert('Error')
-        console.log(onrejected)
-      })
-    }
-  }
-  ngOnInit() {
-  }
-
 }
